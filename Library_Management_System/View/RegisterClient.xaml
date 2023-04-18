@@ -1,0 +1,22 @@
+﻿<Window x:Class="Library_Management_System.View.RegisterClient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Library_Management_System.View"
+        mc:Ignorable="d"
+        Title="RegisterClient" Height="400" Width="500">
+    <Grid>
+        <Label Content="First Name:" HorizontalAlignment="Left" Height="40" Margin="66,111,0,0" VerticalAlignment="Top" Width="100" FontSize="16"/>
+        <Label Content="Last Name: " HorizontalAlignment="Left" Height="40" Margin="66,160,0,0" VerticalAlignment="Top" Width="100" FontSize="16"/>
+        <TextBox x:Name="lastNameTextbox" HorizontalAlignment="Left" Margin="199,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="183" Height="30"/>
+        <TextBox x:Name="firstnameTextbox" HorizontalAlignment="Left" Margin="199,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="183" Height="30"/>
+        <TextBox x:Name="clientIDTextbox" HorizontalAlignment="Left" Margin="199,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="183" Height="30"/>
+        <Button x:Name="registerClientButton" Content="REGISTER" HorizontalAlignment="Left" Margin="66,311,0,0" VerticalAlignment="Top" Width="140"  Height="33" FontSize="18" Click="registerClientButton_Click"/>
+        <Button x:Name="cancelClientButton" Content="CANCEL" HorizontalAlignment="Left" Margin="302,311,0,0" VerticalAlignment="Top" Width="140"  Height="33" FontSize="18" Click="cancelClientButton_Click"/>
+        <Button x:Name="generateClientButton" Content="Generate ID" HorizontalAlignment="Left" Margin="66,216,0,0" VerticalAlignment="Top" Width="114"  Height="34" FontSize="18" Click="generateClientButton_Click"/>
+
+        <Label Content="CLIENT REGISTRATION PAGE" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Height="34" Width="264" FontSize="18"/>
+
+    </Grid>
+</Window>
