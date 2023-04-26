@@ -10,12 +10,19 @@
 
 
         <GroupBox Header="Sort By:" Margin="0,6,0,140" />
-        <Label Content="Име: " HorizontalAlignment="Left" Height="25" Margin="21,242,0,0" VerticalAlignment="Top" Width="81"/>
         <Button x:Name="sortButton" Content="SORT" HorizontalAlignment="Left" Margin="636,38,0,0" VerticalAlignment="Top" Width="130" Height="25" Click="sortBookButton_Click"/>
         <CheckBox Content="Title" x:Name="cbTitle" Margin="33,26,710,392"/>
         <CheckBox Content="Author" x:Name="cbAuthor" Margin="177,26,566,392"/>
         <CheckBox Content="ISBN" x:Name="cbISBN" Margin="343,26,400,392"/>
         <CheckBox Content="Status" x:Name="cbStatus" Margin="490,26,253,392"/>
+        <RadioButton Content="Ascending" Margin="33,51,677,363"/>
+        <RadioButton Content="Descending" Margin="33,71,677,343"/>
+        <RadioButton Content="Ascending" Margin="177,51,533,363"/>
+        <RadioButton Content="Descending" Margin="177,71,533,343"/>
+        <RadioButton Content="Ascending" Margin="343,51,367,363"/>
+        <RadioButton Content="Descending" Margin="343,71,367,343"/>
+        <RadioButton Content="Ascending" Margin="490,51,220,363"/>
+        <RadioButton Content="Descending" Margin="490,71,220,343"/>
 
 
 
