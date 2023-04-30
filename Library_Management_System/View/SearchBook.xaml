@@ -5,32 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Library_Management_System.View"
         mc:Ignorable="d"
-        Title="SearchBook" Height="450" Width="800">
+        Title="SearchBook" Height="450" Width="800"
+        
+        >
+
     <Grid Name="MainGrid">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <GroupBox Header="Sort By:" Margin="0,6,0,140" />
-        <Button x:Name="sortButton" Content="SORT" HorizontalAlignment="Left" Margin="636,38,0,0" VerticalAlignment="Top" Width="130" Height="25" Click="sortBookButton_Click"/>
-        <CheckBox Content="Title" x:Name="cbTitle" Margin="33,26,710,392"/>
-        <CheckBox Content="Author" x:Name="cbAuthor" Margin="177,26,566,392"/>
-        <CheckBox Content="ISBN" x:Name="cbISBN" Margin="343,26,400,392"/>
-        <CheckBox Content="Status" x:Name="cbStatus" Margin="490,26,253,392"/>
-        <RadioButton Content="Ascending" Margin="33,51,677,363"/>
-        <RadioButton Content="Descending" Margin="33,71,677,343"/>
-        <RadioButton Content="Ascending" Margin="177,51,533,363"/>
-        <RadioButton Content="Descending" Margin="177,71,533,343"/>
-        <RadioButton Content="Ascending" Margin="343,51,367,363"/>
-        <RadioButton Content="Descending" Margin="343,71,367,343"/>
-        <RadioButton Content="Ascending" Margin="490,51,220,363"/>
-        <RadioButton Content="Descending" Margin="490,71,220,343"/>
+        <!-- Checkbox and radio button code -->
+        <GroupBox Header="Sort By" Grid.Row="0">
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" Margin="25,0,50,0">
+                    <CheckBox Content="Title" IsChecked="{Binding SortByTitle, Mode=TwoWay}"/>
+                    <RadioButton Content="Asc" IsChecked="{Binding SortByTitleAsc, Mode=TwoWay}"/>
+                    <RadioButton Content="Desc" IsChecked="{Binding SortByTitleDesc, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="20,0,50,0">
+                    <CheckBox Content="Author" IsChecked="{Binding SortByAuthor, Mode=TwoWay}"/>
+                    <RadioButton Content="Asc" IsChecked="{Binding SortByAuthorAsc, Mode=TwoWay}"/>
+                    <RadioButton Content="Desc" IsChecked="{Binding SortByAuthorDesc, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="20,0,50,0">
+                    <CheckBox Content="ISBN" IsChecked="{Binding SortByISBN, Mode=TwoWay}"/>
+                    <RadioButton Content="Asc" IsChecked="{Binding SortByISBNAsc, Mode=TwoWay}"/>
+                    <RadioButton Content="Desc" IsChecked="{Binding SortByISBNDesc, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="20,0,50,0">
+                    <CheckBox Content="Status" IsChecked="{Binding SortByStatus, Mode=TwoWay}"/>
+                    <RadioButton Content="Asc" IsChecked="{Binding SortByStatusAsc, Mode=TwoWay}"/>
+                    <RadioButton Content="Desc" IsChecked="{Binding SortByStatusDesc, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel>
+                    <Button Content="Sort" Command="{Binding SortCommand}" Height="25" Width="60" Margin="100,10,5,0"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Entity display panel code -->
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
+
+            <ListView  ItemsSource="{Binding Entities}" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="300" Header="Title" DisplayMemberBinding="{Binding Title}"/>
+                        <GridViewColumn Width="200" Header="Author" DisplayMemberBinding="{Binding Author}"/>
+                        <GridViewColumn  Width="200" Header="ISBN" DisplayMemberBinding="{Binding ISBN}"/>
+                        <GridViewColumn  Width="100" Header="Status" DisplayMemberBinding="{Binding Status}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
 
 
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
+            <ComboBox SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding Items}" Margin="0,5,5,0" VerticalAlignment="Top" Width="154"/>
 
-        <GroupBox Header="Search By:" Margin="0,299,0,0"/>
-        <Button x:Name="searchButton" Content="SEARCH" HorizontalAlignment="Left" Margin="636,324,0,0" VerticalAlignment="Top" Width="130" Height="25" Click="searchBookButton_Click"/>
-        <TextBox x:Name="educationDegreeText" HorizontalAlignment="Left" Margin="223,324,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="380" Height="25"/>
-        <ComboBox x:Name="statusText" HorizontalAlignment="Left" Margin="21,324,0,0" VerticalAlignment="Top" Width="180" Height="25"
-                  ItemsSource="{Binding RelativeSource = {RelativeSource AncestorType={x:Type Window}}, Path=StudStatusChoices}"/>
+            <TextBox Text="{Binding SearchText}" Width="294" Margin="0,0,5,0" FontSize="14"/>
+            <Button Content="Search" Command="{Binding SearchCommand}" Width="75"/>
+        </StackPanel>
+
 
 
     </Grid>

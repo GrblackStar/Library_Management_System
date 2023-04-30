@@ -10,6 +10,7 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            ContextKey = "Library_Management_System.LibraryContext";
         }
 
         protected override void Seed(Library_Management_System.LibraryContext context)

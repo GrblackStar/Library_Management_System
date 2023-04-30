@@ -31,4 +31,4 @@ C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Mana
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\bin\Debug\EntityFramework.xml
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\Library_Management_System.csproj.CopyComplete
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\Library_Management_System.Migrations.initial.resources
+C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\Library_Management_System.Migrations.InitialCreate.resources

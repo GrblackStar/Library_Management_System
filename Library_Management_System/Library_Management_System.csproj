@@ -66,14 +66,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="LibraryContext.cs" />
-    <Compile Include="Migrations\202304171537513_initial.cs" />
-    <Compile Include="Migrations\202304171537513_initial.designer.cs">
-      <DependentUpon>202304171537513_initial.cs</DependentUpon>
+    <Compile Include="Migrations\202304281538410_InitialCreate.cs" />
+    <Compile Include="Migrations\202304281538410_InitialCreate.designer.cs">
+      <DependentUpon>202304281538410_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Admin.cs" />
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Client.cs" />
+    <Compile Include="ViewModel\BookSearchViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\SearchOption.cs" />
     <Compile Include="View\BorrowReturn.xaml.cs">
       <DependentUpon>BorrowReturn.xaml</DependentUpon>
     </Compile>
@@ -143,8 +146,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202304171537513_initial.resx">
-      <DependentUpon>202304171537513_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202304281538410_InitialCreate.resx">
+      <DependentUpon>202304281538410_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -159,9 +162,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

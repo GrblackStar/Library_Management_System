@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library_Management_System.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,16 +23,9 @@ namespace Library_Management_System.View
         public SearchBook()
         {
             InitializeComponent();
-        }
-
-        private void sortBookButton_Click(object sender, RoutedEventArgs e)
-        {
+            DataContext = new BookSearchViewModel();
 
         }
 
-        private void searchBookButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
