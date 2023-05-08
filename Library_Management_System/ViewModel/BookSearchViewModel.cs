@@ -13,8 +13,15 @@ namespace Library_Management_System.ViewModel
 {
     public class BookSearchViewModel : INotifyPropertyChanged
     {
+        // provides data and behavior to a view that displays a list of books and allows the user to search for books.
+        // The class implements the INotifyPropertyChanged interface, which allows the view to be notified when a
+        // property of the view model changes
+
+        // The _entities property is an ObservableCollection<Book> object that contains the books to be displayed in the view.
         private ObservableCollection<Book> _entities;
+        // The _view property is an ICollectionView object that provides a filtered and sorted view of the _entities collection
         private ICollectionView _view;
+        // contains a list of search options that are used to allow the user to select a search criterion
         private List<string> _items = new List<string>()
         {
             "ALL",
@@ -24,10 +31,17 @@ namespace Library_Management_System.ViewModel
             "STATUS",
             "CODEID"
         };
-        private string _selectedItem;
-        private string _searchText;
-        private ICommand _searchCommand;
 
+        // The _selectedItem property is a string that represents the currently selected search criterion
+        private string _selectedItem;
+        // The _searchText property is a string that represents the text to be searched for.
+        private string _searchText;
+
+        // Define a command to perform the searching
+        private ICommand _searchCommand;
+        // Define a command to perform the sorting
+        public ICommand SortCommand => new RelayCommand(param => this.Sort(),
+                        param => this.CanSearch());
 
 
         public bool SortByTitle { get; set; }
@@ -39,10 +53,11 @@ namespace Library_Management_System.ViewModel
         public bool SortByStatus { get; set; }
         public bool SortByStatusAsc { get; set; }
 
-        // Define a command to perform the sorting
-        public ICommand SortCommand => new RelayCommand(param => this.Sort(),
-                        param => this.CanSearch());
 
+
+        // The Sort() method is called by the SortCommand command when it is executed.
+        // The method clears any existing sort descriptions from the _view object and adds new sort descriptions
+        // based on the selected criteria.
         private void Sort()
         {
             if (_view == null)
@@ -144,11 +159,19 @@ namespace Library_Management_System.ViewModel
             }
         }
 
+
+
+        // called by the SearchCommand
         private bool CanSearch()
         {
             return true;
         }
 
+
+        // The Search() method is called by the SearchCommand command when it is executed.
+        // The method retrieves the books from the database that match the selected search
+        // criterion and search text and updates the _entities collection with the results.
+        // The _view object is also updated to display the filtered and sorted results.
         private void Search()
         {
             using (var db = new LibraryContext())
@@ -190,8 +213,17 @@ namespace Library_Management_System.ViewModel
             OnPropertyChanged("Entities");
         }
 
+
+
+
+
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // The OnPropertyChanged() method is a method that is called to raise the PropertyChanged event.
+        // This method is used to notify the view when a property of the view model changes.
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
