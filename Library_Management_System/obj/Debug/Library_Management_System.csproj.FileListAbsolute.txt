@@ -14,17 +14,7 @@ C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Mana
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\Library_Management_System.pdb
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\MainWindow.g.cs
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\MainWindow.baml
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\BorrowReturn.g.cs
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\ClientPage.g.cs
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\LoginAdmin.g.cs
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\RegisterBook.g.cs
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\RegisterClient.g.cs
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\SearchBook.g.cs
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\BorrowReturn.baml
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\ClientPage.baml
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\LoginAdmin.baml
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\RegisterBook.baml
-C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\RegisterClient.baml
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\SearchBook.baml
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\bin\Debug\EntityFramework.dll
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\bin\Debug\EntityFramework.SqlServer.dll
@@ -32,3 +22,5 @@ C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Mana
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\Library_Management_System.csproj.CopyComplete
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\Library_Management_System.Migrations.InitialCreate.resources
+C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\ItemSearch.g.cs
+C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\ItemSearch.baml

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\App.xaml
-7561589288
+31390632198
 
-21-1482106394
+19-1317829786
 162061587445
-View\BorrowReturn.xaml;View\ClientPage.xaml;View\LoginAdmin.xaml;View\MainWindow.xaml;View\RegisterBook.xaml;View\RegisterClient.xaml;View\SearchBook.xaml;
+View\ItemSearch.xaml;View\MainWindow.xaml;View\SearchBook.xaml;
 
 False
 

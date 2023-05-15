@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library_Management_System.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,28 +16,14 @@ using System.Windows.Shapes;
 namespace Library_Management_System.View
 {
     /// <summary>
-    /// Interaction logic for RegisterClient.xaml
+    /// Interaction logic for ItemSearch.xaml
     /// </summary>
-    public partial class RegisterClient : Window
+    public partial class ItemSearch : Window
     {
-        public RegisterClient()
+        public ItemSearch()
         {
             InitializeComponent();
-        }
-
-        private void generateClientButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void registerClientButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void cancelClientButton_Click(object sender, RoutedEventArgs e)
-        {
-
+            DataContext = new ItemSearchViewModel();
         }
     }
 }

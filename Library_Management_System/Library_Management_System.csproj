@@ -75,32 +75,17 @@
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="ViewModel\BookSearchViewModel.cs" />
+    <Compile Include="ViewModel\ItemSearchViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SearchOption.cs" />
-    <Compile Include="View\BorrowReturn.xaml.cs">
-      <DependentUpon>BorrowReturn.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ClientPage.xaml.cs">
-      <DependentUpon>ClientPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\RegisterBook.xaml.cs">
-      <DependentUpon>RegisterBook.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\RegisterClient.xaml.cs">
-      <DependentUpon>RegisterClient.xaml</DependentUpon>
+    <Compile Include="ViewModel\TableName.cs" />
+    <Compile Include="View\ItemSearch.xaml.cs">
+      <DependentUpon>ItemSearch.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SearchBook.xaml.cs">
       <DependentUpon>SearchBook.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\BorrowReturn.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ClientPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\LoginAdmin.xaml">
+    <Page Include="View\ItemSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -112,21 +97,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\LoginAdmin.xaml.cs">
-      <DependentUpon>LoginAdmin.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\RegisterBook.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\RegisterClient.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\SearchBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
