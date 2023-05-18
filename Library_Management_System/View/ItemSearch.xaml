@@ -35,13 +35,10 @@
         <!-- Entity display panel -->
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
 
-            <ListView  ItemsSource="{Binding Entities}" >
+            <ListView  ItemsSource="{Binding Entities}" x:Name="ItemListView" >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="300" Header="Title" DisplayMemberBinding="{Binding Title}"/>
-                        <GridViewColumn Width="200" Header="Author" DisplayMemberBinding="{Binding Author}"/>
-                        <GridViewColumn  Width="200" Header="ISBN" DisplayMemberBinding="{Binding ISBN}"/>
-                        <GridViewColumn  Width="100" Header="Status" DisplayMemberBinding="{Binding Status}"/>
+                        
                     </GridView>
                 </ListView.View>
             </ListView>
