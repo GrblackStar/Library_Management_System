@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,20 +19,14 @@ namespace Library_Management_System.ViewModel
 {
     public class ItemSearchViewModel : INotifyPropertyChanged
     {
-        private readonly LibraryContext _dbContext;
-        private ObservableCollection<TableName> _tableNames;
-        private string _selectedTable;
-        private List<string> _columnsFromDatabase;
-
-        private ObservableCollection<dynamic> _entities;
-        private ICollectionView view;
+        private readonly LibraryContext dbContext;
+        private ObservableCollection<string> tableNames;
+        private string selectedTable;
 
         private ICommand searchItemCommand;
 
-
-
-
-
+        private DataGrid dataGrid;
+        private TableResult tableItems;
 
         public ICommand SearchTableCommand
         {
@@ -37,60 +34,79 @@ namespace Library_Management_System.ViewModel
             {
                 if (searchItemCommand == null)
                 {
-                    searchItemCommand = new RelayCommand(
-                            param => this.SearchTable(),
-                        param => this.CanCallMethod());
-
+                    searchItemCommand = new RelayCommand(FillGrid);
                 }
                 return searchItemCommand;
             }
         }
 
-        public ObservableCollection<TableName> TableNames
+
+        public ObservableCollection<string> TableNames
         {
-            get { return _tableNames; }
+            get { return tableNames; }
             set
             {
-                _tableNames = value;
-                OnPropertyChanged("TableNames");
+                if (tableNames !=  value)
+                {
+                    tableNames = value;
+                    OnPropertyChanged(nameof(TableNames));
+                }
             }
         }
 
         public string SelectedTable
         {
-            get { return _selectedTable; }
+            get { return selectedTable; }
             set
             {
-                if (_selectedTable != value)
+                if (selectedTable != value)
                 {
-                    _selectedTable = value;
-                    OnPropertyChanged("SelectedTable");
+                    selectedTable = value;
+                    OnPropertyChanged(nameof(SelectedTable));
                 }
             }
         }
 
+        /*
         public List<string> ColumnNamesFromDatabase
         {
-            get { return _columnsFromDatabase; }
+            get { return columnsFromDatabase; }
             set
             {
-                _columnsFromDatabase = value;
+                columnsFromDatabase = value;
                 OnPropertyChanged("TableNames");
             }
         }
+        */
 
-        public ObservableCollection<dynamic> Entities
+        public TableResult TableItems
         {
-            get { return _entities; }
-            set
-            {
-                if (_entities != value)
+            get { return tableItems; }
+            set 
+            { 
+                if(tableItems != value)
                 {
-                    _entities = value;
-                    OnPropertyChanged("Entities");
+                    tableItems = value;
+                    OnPropertyChanged(nameof(TableItems));
                 }
             }
         }
+
+        /*
+        public TableResult AvailableTables
+        {
+            get { return availableTables; }
+            set 
+            { 
+                if (availableTables != value)
+                {
+                    availableTables = value;
+                    OnPropertyChanged(nameof(AvailableTables));
+                }
+            }
+        }
+        */
+
 
         /*
         private ListView ItemListView;
@@ -110,12 +126,15 @@ namespace Library_Management_System.ViewModel
 
         public ItemSearchViewModel()
         {
-            _dbContext = new LibraryContext();
-            _tableNames = new ObservableCollection<TableName>(
-                _dbContext.Database.SqlQuery<string>(
+            dbContext = new LibraryContext();
+            
+            tableNames = new ObservableCollection<string>(
+                dbContext.Database.SqlQuery<string>(
                     "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='LibrarySystem' AND TABLE_NAME NOT LIKE '__MigrationHistory'"
-                ).Select(t => new TableName { Name = t })
-            );
+                ));
+            
+            dataGrid = new DataGrid();
+            TableItems = new TableResult();
         }
 
 
@@ -123,23 +142,125 @@ namespace Library_Management_System.ViewModel
         // method to get the columns from the database table:
         private List<string> GetTableColumns(string tableName)
         {
-            List<string> columns = _dbContext.Database.SqlQuery<string>(
+            List<string> columns = dbContext.Database.SqlQuery<string>(
                 $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'")
                 .ToList();
 
             return columns;
         }
 
-        private void SearchTable()
+        private void FillGrid(object gridParam)
         {
-            List<string> columns = GetTableColumns(SelectedTable);
-            // make columns:
+            try
+            {
+                TableItems = GetTableData(selectedTable);
+            }
+            catch (SqlException e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
+            // Get a reference to the DataGrid
+            DataGrid grid = (DataGrid)gridParam;
+            if (dataGrid != grid)
+            {
+                dataGrid = grid;
+            }
 
-            GetDataByTable(SelectedTable);
+            // Update
+            grid.ItemsSource = TableItems.Items;
 
+            BuildGrid();
         }
 
+        private void BuildGrid()
+        {
+            // Rebuild grid - we expect a new column configuration
+            dataGrid.Columns.Clear();
+
+            for (int i = 0; i < TableItems.Columns.Count; i++)
+            {
+                ItemColumn col = TableItems.Columns[i];
+
+                DataGridTextColumn column = new DataGridTextColumn();
+                column.Header = col.Name;
+                column.Binding = new Binding($"[{i}]");
+                column.IsReadOnly = true;
+                dataGrid.Columns.Add(column);
+                
+            }
+
+            dataGrid.Items.Refresh();
+        }
+
+
+
+
+        public TableResult GetTableData(string tableName, string sqlCondition = "", string columnNames = "")
+        {
+            SqlConnection connection = new SqlConnection(Properties.Settings.Default.DbConnect);
+
+            string sqlQuery = $"SELECT * FROM {tableName}";
+            if (columnNames != null && columnNames != "")
+            {
+                sqlQuery = $"SELECT {columnNames} FROM {tableName}";
+            }
+
+            if (sqlCondition != null && sqlCondition != "")
+            {
+                sqlQuery = $"{sqlQuery} WHERE {sqlCondition}";
+            }
+
+            IDbCommand command = new SqlCommand
+            {
+                Connection = (SqlConnection)connection
+            };
+            connection.Open();
+            command.CommandText = sqlQuery;
+            IDataReader reader = command.ExecuteReader();
+
+            bool notEndOfResult;
+            notEndOfResult = reader.Read();
+
+            TableResult result = new TableResult();
+            bool readColNames = true;
+            int rowNumber = 1;
+
+            
+
+            // For each result row:
+            while (notEndOfResult)
+            {
+                ObservableCollection<string> row = new ObservableCollection<string>();
+                
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    // Columns
+                    if (readColNames)
+                    {
+                        string colName = reader.GetName(i);
+                        ItemColumn col = new ItemColumn(colName);
+                        result.Columns.Add(col);
+                    }
+                    // Row values
+                    string value = reader.GetValue(i).ToString() ?? "";
+                    row.Add(value);
+                }
+
+                readColNames = false;
+                result.Items.Add(row);
+                notEndOfResult = reader.Read();
+                rowNumber++;
+            }
+
+            return result;
+
+
+        }
+       
+
+
+        /*
         private void GetDataByTable(string selectedTable)
         {
             // static implementation:
@@ -156,16 +277,18 @@ namespace Library_Management_System.ViewModel
                 OnPropertyChanged("Entities");
             }
 
-            /*
+            
             using (var db = new LibraryContext())
             {
                 List<dynamic> items = db.{selectedTable}.ToList();
                 Entities = new ObservableCollection<dynamic>(items);
             }
-            */
+            
 
         }
+    */
 
+        /*
         private void InitializeListViewColumns(List<string> columns)
         {
             
@@ -182,16 +305,7 @@ namespace Library_Management_System.ViewModel
             // get the list view by name
             //_listView.Columns = listViewColumns;
         }
-
-
-
-
-
-
-
-
-
-
+        */
 
 
 

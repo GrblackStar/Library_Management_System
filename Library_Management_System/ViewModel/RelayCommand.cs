@@ -40,6 +40,11 @@ namespace Library_Management_System.ViewModel
             _canExecute = canExecute;
         }
 
+        public RelayCommand(Action<object> execute)
+        {
+            _execute = execute;
+        }
+
 
 
         // It determines whether the command can be executed or not, based on the result of the _canExecute function.
