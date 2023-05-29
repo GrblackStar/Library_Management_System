@@ -75,6 +75,7 @@
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ItemColumn.cs" />
+    <Compile Include="Model\SearchCriteria.cs" />
     <Compile Include="Model\TableResult.cs" />
     <Compile Include="ViewModel\BookSearchViewModel.cs" />
     <Compile Include="ViewModel\ItemSearchViewModel.cs" />

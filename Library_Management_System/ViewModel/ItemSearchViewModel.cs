@@ -151,26 +151,34 @@ namespace Library_Management_System.ViewModel
 
         private void FillGrid(object gridParam)
         {
-            try
+            if (SelectedTable != null)
             {
-                TableItems = GetTableData(selectedTable);
+                try
+                {
+                    TableItems = GetTableData(selectedTable);
+                }
+                catch (SqlException e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+
+                DataGrid grid = (DataGrid)gridParam;
+                if (dataGrid != grid)
+                {
+                    dataGrid = grid;
+                }
+
+                // Update
+                grid.ItemsSource = TableItems.Items;
+
+                BuildGrid();
             }
-            catch (SqlException e)
+            else
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show("Select a table");
             }
 
-            // Get a reference to the DataGrid
-            DataGrid grid = (DataGrid)gridParam;
-            if (dataGrid != grid)
-            {
-                dataGrid = grid;
-            }
-
-            // Update
-            grid.ItemsSource = TableItems.Items;
-
-            BuildGrid();
+            
         }
 
         private void BuildGrid()
@@ -201,7 +209,8 @@ namespace Library_Management_System.ViewModel
             SqlConnection connection = new SqlConnection(Properties.Settings.Default.DbConnect);
 
             string sqlQuery = $"SELECT * FROM {tableName}";
-            if (columnNames != null && columnNames != "")
+            
+            /*if (columnNames != null && columnNames != "")
             {
                 sqlQuery = $"SELECT {columnNames} FROM {tableName}";
             }
@@ -210,10 +219,11 @@ namespace Library_Management_System.ViewModel
             {
                 sqlQuery = $"{sqlQuery} WHERE {sqlCondition}";
             }
+            */
 
             IDbCommand command = new SqlCommand
             {
-                Connection = (SqlConnection)connection
+                Connection = connection
             };
             connection.Open();
             command.CommandText = sqlQuery;
@@ -228,10 +238,9 @@ namespace Library_Management_System.ViewModel
 
             
 
-            // For each result row:
             while (notEndOfResult)
             {
-                ObservableCollection<string> row = new ObservableCollection<string>();
+                ObservableCollection<string> tableRow = new ObservableCollection<string>();
                 
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
@@ -244,11 +253,11 @@ namespace Library_Management_System.ViewModel
                     }
                     // Row values
                     string value = reader.GetValue(i).ToString() ?? "";
-                    row.Add(value);
+                    tableRow.Add(value);
                 }
 
                 readColNames = false;
-                result.Items.Add(row);
+                result.Items.Add(tableRow);
                 notEndOfResult = reader.Read();
                 rowNumber++;
             }
