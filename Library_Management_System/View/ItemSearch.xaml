@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:Library_Management_System.View"
         mc:Ignorable="d"
         Title="ItemSearch" Height="450" Width="800">
-    
-    
-    
-    
+
+
+
+
     <Grid Name="MainGrid">
 
         <Grid.RowDefinitions>
@@ -34,15 +34,49 @@
 
         <!-- Entity display panel -->
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
-            <DataGrid Name="dataGrid" AutoGenerateColumns="False" Margin="0,5,0,5"/>
+            <DataGrid Name="dataGrid"
+                   ItemsSource="{Binding DataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   AutoGenerateColumns="True" Margin="0,5,0,5"/>
         </Border>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
-            <ComboBox SelectedItem="{Binding SelectedItem}" ItemsSource="{Binding Items}" Margin="0,5,5,0" VerticalAlignment="Top" Width="154"/>
-            <TextBox Text="{Binding SearchText}" Width="294" Margin="0,0,5,0" FontSize="14"/>
-            
-            <Button Content="Search" Command="{Binding SearchCommand}" Width="75"/>
-        </StackPanel>
+        <Grid Grid.Row="2" Margin="5">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ItemsControl ItemsSource="{Binding SearchCriteriaCollection, UpdateSourceTrigger=PropertyChanged}">
+
+                <ItemsControl.ItemTemplate>
+
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+                            <ComboBox ItemsSource="{Binding DataContext.ColumnNamesFromDatabase, 
+                                RelativeSource={RelativeSource AncestorType={x:Type Window}}, 
+                                UpdateSourceTrigger=PropertyChanged}" 
+                                SelectedItem="{Binding ColumnName}"
+                               
+                               Margin="0,5,5,0" VerticalAlignment="Top" Width="154"/>
+                            <TextBox Text="{Binding Value}" Width="294" Margin="0,0,5,0" FontSize="14"/>
+                        </StackPanel>
+
+                    </DataTemplate>
+
+                </ItemsControl.ItemTemplate>
+
+
+            </ItemsControl>
+
+            <StackPanel Grid.Column="1">
+                <Button Content="Add Criteria" Command="{Binding AddCriteriaCommand}"></Button>
+                <Button Content="Remove Selected Criteria" Command="{Binding RemoveCriteriaCommand}"></Button>
+                <Button  Content="Search" Command="{Binding SearchCommand}"/>
+            </StackPanel>
+        </Grid>
 
 
 

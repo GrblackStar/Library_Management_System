@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Library_Management_System.Model
 {
-    public class Book
+    public class Book : BaseModel
     {
         public string BookId { get; set; }     // in the set, concatenate copy id + ISBN
         public string Title { get; set; }

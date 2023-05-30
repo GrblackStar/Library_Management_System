@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Admin.cs" />
+    <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\ItemColumn.cs" />
