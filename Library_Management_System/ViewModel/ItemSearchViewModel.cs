@@ -2,8 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -14,6 +12,7 @@ namespace Library_Management_System.ViewModel
     public class ItemSearchViewModel : INotifyPropertyChanged
     {
         private readonly LibraryContext dbContext;
+        private readonly DbQueryController dbQueryController;
 
 
         // checkboxes in the view
@@ -45,7 +44,7 @@ namespace Library_Management_System.ViewModel
             set
             {
                 _dataTable = value;
-                OnPropertyChanged(nameof(DataTable)); // Notify property change
+                OnPropertyChanged(nameof(DataTable));
             }
         }
 
@@ -98,11 +97,7 @@ namespace Library_Management_System.ViewModel
                 {
                     selectedTable = value;
 
-                    // get the columns from the database table:
-
-                    //ColumnNamesFromDatabase = GetTableColumns(selectedTable);
                     FillGrid();
-
                     OnPropertyChanged(nameof(SelectedTable));
                 }
             }
@@ -195,28 +190,9 @@ namespace Library_Management_System.ViewModel
                     return;
                 }
 
-                var whereQuery = "";
-                foreach (var item in SearchCriteriaCollection)
-                {
-                    if (string.IsNullOrEmpty(item.ColumnName) || string.IsNullOrEmpty(item.Value))
-                        continue;
+                string sqlQuery = dbQueryController.QueryStringGenerator(SearchCriteriaCollection, SelectedTable);
 
-                    if (whereQuery == "")
-                        whereQuery += item.ColumnName + " LIKE '%" + item.Value + "%' ";
-                    else
-                        whereQuery += " AND " + item.ColumnName + " LIKE '%" + item.Value + "%' ";
-                }
-
-                if (!string.IsNullOrEmpty(whereQuery))
-                {
-                    whereQuery = " WHERE " + whereQuery;
-                }
-
-                // Write your raw SQL query
-                string sqlQuery = "SELECT * FROM " + SelectedTable + whereQuery;
-
-
-                ExecuteQuery(sqlQuery);
+                DataTable = dbQueryController.ExecuteDbControllerQuery(sqlQuery);
             });
         }
 
@@ -235,6 +211,7 @@ namespace Library_Management_System.ViewModel
         public ItemSearchViewModel()
         {
             dbContext = new LibraryContext();
+            dbQueryController = new DbQueryController();
 
             tableNames = new ObservableCollection<string>(
                 dbContext.Database.SqlQuery<string>(
@@ -243,29 +220,7 @@ namespace Library_Management_System.ViewModel
         }
 
 
-        private void ExecuteQuery(string sqlQuery)
-        {
-            // Execute the query and save the result into a DataTable
-            DataTable dataTable = new DataTable();
-            using (var connection = new SqlConnection(Properties.Settings.Default.DbConnect))
-            {
-                connection.Open();
-                using (var command = new SqlCommand(sqlQuery, connection))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        dataTable.Load(reader);
-                    }
-                }
-            }
-
-            // Assign the filled DataTable to the ViewModel property
-            DataTable = dataTable;
-        }
-
-
-
-
+        
         // method to get the columns from the database table:
         private ObservableCollection<string> GetTableColumns(string tableName)
         {
@@ -304,7 +259,7 @@ namespace Library_Management_System.ViewModel
         private void FillGrid()
         {
             columnsFromDatabase = GetTableColumns(selectedTable);
-            ExecuteQuery($"SELECT * FROM {SelectedTable}");
+            DataTable = dbQueryController.ExecuteDbControllerQuery(dbQueryController.SelectWholeTable(SelectedTable));
         }
 
 
