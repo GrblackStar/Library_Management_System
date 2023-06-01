@@ -35,8 +35,7 @@ namespace Library_Management_System.ViewModel
                 }
             }
         }
-        //public ObservableCollection<>
-        // get the ItemColumns where the checkbox is true and put them in DataContext.ColumnNamesFromDatabase
+        
 
 
         private DataTable _dataTable;
@@ -118,6 +117,7 @@ namespace Library_Management_System.ViewModel
             {
                 columnsFromDatabase = value;
                 OnPropertyChanged(nameof(ColumnNamesFromDatabase));
+                
             }
         }
 
@@ -127,10 +127,16 @@ namespace Library_Management_System.ViewModel
         private ObservableCollection<string> searchableColumns;
         public ObservableCollection<string> SearchableColumns
         {
-            get { return searchableColumns; }
+            get 
+            {
+                if (searchableColumns == null)
+                    searchableColumns = new ObservableCollection<string>();
+                return searchableColumns;
+            }
             set
             {
-                searchableColumns = value;
+                if (searchableColumns != value)
+                    searchableColumns = value;
                 OnPropertyChanged(nameof(SearchableColumns));
             }
         }
@@ -266,16 +272,20 @@ namespace Library_Management_System.ViewModel
                     $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'")
                 .ToList());
 
+            itemColumns.Clear();
             foreach (var column in columns)
             {
                 ItemColumn item = new ItemColumn(column, true);
                 itemColumns.Add(item);
             }
+
+            SearchableColumns.Clear();
             foreach (var item in itemColumns)
             {
                 SearchableColumns = new ObservableCollection<string>(
                             ItemColumns.Where(column => column.IsSearchable).Select(column => column.Name));
             }
+            
 
             return columns;
         }

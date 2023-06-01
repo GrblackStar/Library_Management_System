@@ -19,7 +19,17 @@
         <GroupBox Header="Search Table" Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
-                    <ComboBox  ScrollViewer.VerticalScrollBarVisibility="Visible" SelectedItem="{Binding SelectedTable}" ItemsSource="{Binding TableNames}" DisplayMemberPath="." Margin="0,5,5,0" VerticalAlignment="Top" Width="140"/>
+
+                    <ComboBox ItemsSource="{Binding TableNames}" SelectedItem="{Binding SelectedTable}"
+                              ScrollViewer.VerticalScrollBarVisibility="Visible"
+                              DisplayMemberPath="." Margin="0,5,5,0" VerticalAlignment="Top" Width="140">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <!-- ComboBox  ScrollViewer.VerticalScrollBarVisibility="Visible" SelectedItem="{Binding SelectedTable}" ItemsSource="{Binding TableNames}" DisplayMemberPath="." Margin="0,5,5,0" VerticalAlignment="Top" Width="140"/-->
                     <Button Content="Search Table" Command="{Binding SearchTableCommand}"  Height="21" Width="80" Margin="20,5,5,0"/>
                 </StackPanel>
             </StackPanel>
