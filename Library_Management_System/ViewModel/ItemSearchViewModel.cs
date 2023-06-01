@@ -14,10 +14,29 @@ namespace Library_Management_System.ViewModel
     {
         private readonly LibraryContext dbContext;
 
-        private ObservableCollection<string> tableNames;
-        private string selectedTable;
 
-        private ICommand searchItemCommand;
+        // checkboxes in the view
+        private ObservableCollection<ItemColumn> itemColumns;
+        public ObservableCollection<ItemColumn> ItemColumns
+        {
+            get
+            {
+                if (itemColumns == null)
+                    itemColumns = new ObservableCollection<ItemColumn>();
+                return itemColumns;
+            }
+            set
+            {
+                if (itemColumns != value)
+                {
+                    itemColumns = value;
+                    OnPropertyChanged(nameof(ItemColumns));
+                }
+            }
+        }
+        //public ObservableCollection<>
+        // get the ItemColumns where the checkbox is true and put them in DataContext.ColumnNamesFromDatabase
+
 
         private DataTable _dataTable;
         public DataTable DataTable
@@ -26,31 +45,17 @@ namespace Library_Management_System.ViewModel
             set
             {
                 _dataTable = value;
-                OnPropertyChanged("DataTable"); // Notify property change
+                OnPropertyChanged(nameof(DataTable)); // Notify property change
             }
         }
 
-
-        public ICommand SearchTableCommand
-        {
-            get
-            {
-                if (searchItemCommand == null)
-                {
-                    searchItemCommand = new RelayCommand(FillGrid);
-                }
-                return searchItemCommand;
-            }
-        }
 
 
         private ObservableCollection<SearchCriteria> _searchCriteriaCollection;
-
         public ObservableCollection<SearchCriteria> SearchCriteriaCollection
         {
             get
             {
-
                 if (_searchCriteriaCollection == null)
                     _searchCriteriaCollection = new ObservableCollection<SearchCriteria>();
                 return _searchCriteriaCollection;
@@ -65,6 +70,90 @@ namespace Library_Management_System.ViewModel
             }
         }
 
+
+
+        private ObservableCollection<string> tableNames;
+        public ObservableCollection<string> TableNames
+        {
+            get { return tableNames; }
+            set
+            {
+                if (tableNames != value)
+                {
+                    tableNames = value;
+                    OnPropertyChanged(nameof(TableNames));
+                }
+            }
+        }
+
+
+
+        private string selectedTable;
+        public string SelectedTable
+        {
+            get { return selectedTable; }
+            set
+            {
+                if (selectedTable != value)
+                {
+                    selectedTable = value;
+
+                    // get the columns from the database table:
+
+                    //ColumnNamesFromDatabase = GetTableColumns(selectedTable);
+
+                    OnPropertyChanged(nameof(SelectedTable));
+                }
+            }
+        }
+
+
+
+        private ObservableCollection<string> columnsFromDatabase;
+        public ObservableCollection<string> ColumnNamesFromDatabase
+        {
+            get { return columnsFromDatabase; }
+            set
+            {
+                columnsFromDatabase = value;
+                OnPropertyChanged(nameof(ColumnNamesFromDatabase));
+            }
+        }
+
+
+
+
+        private ObservableCollection<string> searchableColumns;
+        public ObservableCollection<string> SearchableColumns
+        {
+            get { return searchableColumns; }
+            set
+            {
+                searchableColumns = value;
+                OnPropertyChanged(nameof(SearchableColumns));
+            }
+        }
+
+
+
+
+        private ICommand searchItemCommand;
+        public ICommand SearchTableCommand
+        {
+            get
+            {
+                if (searchItemCommand == null)
+                {
+                    searchItemCommand = new RelayCommand(param => this.FillGrid(),
+                        param => true);
+                }
+                return searchItemCommand;
+            }
+        }
+
+
+
+
         public ICommand AddCriteriaCommand
         {
             get => new RelayCommand((x) =>
@@ -72,6 +161,7 @@ namespace Library_Management_System.ViewModel
                 SearchCriteriaCollection.Add(new SearchCriteria());
             });
         }
+
 
         public ICommand RemoveCriteriaCommand
         {
@@ -85,6 +175,7 @@ namespace Library_Management_System.ViewModel
                 }
             });
         }
+
 
         public ICommand SearchCommand
         {
@@ -122,10 +213,23 @@ namespace Library_Management_System.ViewModel
         }
 
 
+
+
+        public ItemSearchViewModel()
+        {
+            dbContext = new LibraryContext();
+
+            tableNames = new ObservableCollection<string>(
+                dbContext.Database.SqlQuery<string>(
+                    "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='LibrarySystem' AND TABLE_NAME NOT LIKE '__MigrationHistory'"
+                ));
+        }
+
+
         private void ExecuteQuery(string sqlQuery)
         {
             // Execute the query and save the result into a DataTable
-            var dataTable = new DataTable();
+            DataTable dataTable = new DataTable();
             using (var connection = new SqlConnection(Properties.Settings.Default.DbConnect))
             {
                 connection.Open();
@@ -138,66 +242,10 @@ namespace Library_Management_System.ViewModel
                 }
             }
 
-            // Assign the filled DataTable to your ViewModel property
+            // Assign the filled DataTable to the ViewModel property
             DataTable = dataTable;
         }
 
-
-        public ObservableCollection<string> TableNames
-        {
-            get { return tableNames; }
-            set
-            {
-                if (tableNames != value)
-                {
-                    tableNames = value;
-                    OnPropertyChanged(nameof(TableNames));
-                }
-            }
-        }
-
-        public string SelectedTable
-        {
-            get { return selectedTable; }
-            set
-            {
-                if (selectedTable != value)
-                {
-                    selectedTable = value;
-
-                    // get the columns from the database table:
-
-                    ColumnNamesFromDatabase = GetTableColumns(selectedTable);
-
-                    OnPropertyChanged(nameof(SelectedTable));
-                }
-            }
-        }
-
-        private ObservableCollection<string> columnsFromDatabase;
-        public ObservableCollection<string> ColumnNamesFromDatabase
-        {
-            get { return columnsFromDatabase; }
-            set
-            {
-                columnsFromDatabase = value;
-                OnPropertyChanged("ColumnNamesFromDatabase");
-            }
-        }
-
-
-
-        public ItemSearchViewModel()
-        {
-            dbContext = new LibraryContext();
-
-            tableNames = new ObservableCollection<string>(
-                dbContext.Database.SqlQuery<string>(
-                    "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='LibrarySystem' AND TABLE_NAME NOT LIKE '__MigrationHistory'"
-                ));
-
-
-        }
 
 
 
@@ -208,13 +256,25 @@ namespace Library_Management_System.ViewModel
                     $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'")
                 .ToList());
 
+            foreach (var column in columns)
+            {
+                ItemColumn item = new ItemColumn(column, true);
+                itemColumns.Add(item);
+            }
+            foreach (var item in itemColumns)
+            {
+                searchableColumns = new ObservableCollection<string>(
+                            ItemColumns.Where(column => column.IsSearchable).Select(column => column.Name));
+            }
+
             return columns;
         }
 
-        private void FillGrid(object gridParam)
-        {
-            ExecuteQuery($"SELECT * FROM {SelectedTable}");
 
+        private void FillGrid()
+        {
+            columnsFromDatabase = GetTableColumns(selectedTable);
+            ExecuteQuery($"SELECT * FROM {SelectedTable}");
         }
 
 

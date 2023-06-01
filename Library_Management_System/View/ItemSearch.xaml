@@ -14,54 +14,82 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Checkbox and radio button -->
-        <GroupBox Header="Sort By" Grid.Row="0">
+        <GroupBox Header="Search Table" Grid.Row="0">
 
             <StackPanel Orientation="Horizontal">
-                <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
                     <ComboBox SelectedItem="{Binding SelectedTable}" ItemsSource="{Binding TableNames}" DisplayMemberPath="." Margin="0,5,5,0" VerticalAlignment="Top" Width="140"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Search Table" Command="{Binding SearchTableCommand}" CommandParameter="{Binding ElementName=dataGrid}" Height="20" Width="80" Margin="0,10,5,0"/>
-                        <Button Content="Sort" Command="{Binding SortByCommand}" Height="20" Width="50" Margin="10,10,5,0"/>
-                    </StackPanel>
+                    <Button Content="Search Table" Command="{Binding SearchTableCommand}"  Height="21" Width="80" Margin="20,5,5,0"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
 
+
+
+
         <!-- Entity display panel -->
-        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
-            <DataGrid Name="dataGrid"
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Margin="5">
+            
+            
+            
+            <StackPanel>
+                <Label HorizontalAlignment="Left">Searchable columns:</Label>
+                <ListBox ItemsSource="{Binding ItemColumns, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,10">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,0,5,0">
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSearchable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+
+
+
+                <DataGrid Name="dataGrid"
                    ItemsSource="{Binding DataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                    AutoGenerateColumns="True" Margin="0,5,0,5"/>
+            </StackPanel>
+
+            
         </Border>
 
-        <Grid Grid.Row="2" Margin="5">
+        <Grid Grid.Row="1" Margin="5">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="36*" />
+                <ColumnDefinition Width="359*"/>
+                <ColumnDefinition Width="395*" />
             </Grid.ColumnDefinitions>
 
-            <ItemsControl ItemsSource="{Binding SearchCriteriaCollection, UpdateSourceTrigger=PropertyChanged}">
-
+            <ItemsControl ItemsSource="{Binding SearchCriteriaCollection, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
                 <ItemsControl.ItemTemplate>
 
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
 
-                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,3,0,0"></CheckBox>
 
-                            <ComboBox ItemsSource="{Binding DataContext.ColumnNamesFromDatabase, 
+                            <ComboBox ItemsSource="{Binding DataContext.SearchableColumns, 
                                 RelativeSource={RelativeSource AncestorType={x:Type Window}}, 
                                 UpdateSourceTrigger=PropertyChanged}" 
                                 SelectedItem="{Binding ColumnName}"
                                
-                               Margin="0,5,5,0" VerticalAlignment="Top" Width="154"/>
-                            <TextBox Text="{Binding Value}" Width="294" Margin="0,0,5,0" FontSize="14"/>
+                               Margin="0,0,5,0" VerticalAlignment="Top" Width="154"/>
+                            <TextBox Text="{Binding Value}" Width="290" Margin="0,0,5,0" FontSize="14"/>
                         </StackPanel>
 
                     </DataTemplate>
@@ -71,8 +99,8 @@
 
             </ItemsControl>
 
-            <StackPanel Grid.Column="1">
-                <Button Content="Add Criteria" Command="{Binding AddCriteriaCommand}"></Button>
+            <StackPanel Grid.Column="2">
+                <Button Content="Add Criteria" Command="{Binding AddCriteriaCommand}" ></Button>
                 <Button Content="Remove Selected Criteria" Command="{Binding RemoveCriteriaCommand}"></Button>
                 <Button  Content="Search" Command="{Binding SearchCommand}"/>
             </StackPanel>

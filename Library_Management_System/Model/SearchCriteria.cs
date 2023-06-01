@@ -1,5 +1,4 @@
-﻿
-namespace Library_Management_System.Model
+﻿namespace Library_Management_System.Model
 {
     public class SearchCriteria
     {
