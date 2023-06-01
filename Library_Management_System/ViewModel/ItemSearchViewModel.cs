@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -213,6 +214,15 @@ namespace Library_Management_System.ViewModel
         }
 
 
+        public ICommand ItemColumnSelectionChanedCommand
+        {
+            get => (new RelayCommand((x) =>
+            {
+                //filter
+                SearchableColumns = new ObservableCollection<string>(
+                                            ItemColumns.Where(column => column.IsSearchable).Select(column => column.Name));
+            }));
+        }
 
 
         public ItemSearchViewModel()
@@ -263,7 +273,7 @@ namespace Library_Management_System.ViewModel
             }
             foreach (var item in itemColumns)
             {
-                searchableColumns = new ObservableCollection<string>(
+                SearchableColumns = new ObservableCollection<string>(
                             ItemColumns.Where(column => column.IsSearchable).Select(column => column.Name));
             }
 

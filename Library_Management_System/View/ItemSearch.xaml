@@ -49,7 +49,10 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,0,5,0">
-                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSearchable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+                                <CheckBox Content="{Binding Name}" 
+                                          IsChecked="{Binding IsSearchable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Command="{Binding DataContext.ItemColumnSelectionChanedCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                          ></CheckBox>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
