@@ -83,12 +83,19 @@
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SearchOption.cs" />
     <Compile Include="ViewModel\TableName.cs" />
+    <Compile Include="View\BookOnlySearch.xaml.cs">
+      <DependentUpon>BookOnlySearch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ItemSearch.xaml.cs">
       <DependentUpon>ItemSearch.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SearchBook.xaml.cs">
       <DependentUpon>SearchBook.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\BookOnlySearch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ItemSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

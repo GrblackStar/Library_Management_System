@@ -24,3 +24,5 @@ C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Mana
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\Library_Management_System.Migrations.InitialCreate.resources
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\ItemSearch.g.cs
 C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\ItemSearch.baml
+C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\BookOnlySearch.g.cs
+C:\Users\CharlieCL\Documents\GitHub_Repos\Library_Management_System\Library_Management_System\obj\Debug\View\BookOnlySearch.baml

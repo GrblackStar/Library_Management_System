@@ -101,6 +101,7 @@ namespace Library_Management_System.ViewModel
                     // get the columns from the database table:
 
                     //ColumnNamesFromDatabase = GetTableColumns(selectedTable);
+                    FillGrid();
 
                     OnPropertyChanged(nameof(SelectedTable));
                 }
@@ -272,7 +273,16 @@ namespace Library_Management_System.ViewModel
                     $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'")
                 .ToList());
 
-            itemColumns.Clear();
+            if (itemColumns == null)
+            {
+                itemColumns = new ObservableCollection<ItemColumn>();
+            }
+            else
+            {
+                itemColumns.Clear();
+            }
+
+            //itemColumns.Clear();
             foreach (var column in columns)
             {
                 ItemColumn item = new ItemColumn(column, true);
