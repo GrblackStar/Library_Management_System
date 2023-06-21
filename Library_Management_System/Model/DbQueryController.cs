@@ -1,6 +1,8 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
 
 namespace Library_Management_System.Model
 {
@@ -30,29 +32,52 @@ namespace Library_Management_System.Model
 
         public string QueryStringGenerator(ObservableCollection<SearchCriteria> SearchCriteriaCollection, string SelectedTable)
         {
-            var whereQuery = "";
-            foreach (var item in SearchCriteriaCollection)
+            var criteriaGroups = SearchCriteriaCollection.GroupBy(c => c.ColumnName);
+
+            StringBuilder whereQuery = new StringBuilder();
+            foreach (var group in criteriaGroups)
             {
-                if (string.IsNullOrEmpty(item.ColumnName) || string.IsNullOrEmpty(item.Value))
+                var column = group.Key;
+                var criteria = group.ToList();
+
+                if (string.IsNullOrEmpty(column))
+                {
                     continue;
+                }
 
-                if (whereQuery == "")
-                    whereQuery += item.ColumnName + " LIKE '%" + item.Value + "%' ";
-                else
-                    whereQuery += " AND " + item.ColumnName + " LIKE '%" + item.Value + "%' ";
+                StringBuilder subQuery = new StringBuilder();
+                foreach (var item in criteria)
+                {
+                    if (string.IsNullOrEmpty(item.Value))
+                    {
+                        continue;
+                    }
+
+                    if (subQuery.Length > 0)
+                    {
+                        subQuery.Append(" OR ");
+                    }
+
+                    subQuery.Append(column + " LIKE '%" + item.Value + "%'");
+                }
+
+                if (subQuery.Length > 0)
+                {
+                    if (whereQuery.Length > 0)
+                    {
+                        whereQuery.Append(" AND ");
+                    }
+
+                    whereQuery.Append("(" + subQuery.ToString() + ")");
+                }
             }
 
-            if (!string.IsNullOrEmpty(whereQuery))
-            {
-                whereQuery = " WHERE " + whereQuery;
-            }
-
-            // Write your raw SQL query
-            string sqlQuery = "SELECT * FROM " + SelectedTable + whereQuery;
-
+            string whereClause = whereQuery.Length > 0 ? "WHERE " + whereQuery.ToString() : string.Empty;
+            string sqlQuery = "SELECT * FROM " + SelectedTable + " " + whereClause;
 
             return sqlQuery;
         }
+
 
 
 

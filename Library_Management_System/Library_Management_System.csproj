@@ -81,6 +81,7 @@
     <Compile Include="Model\TableResult.cs" />
     <Compile Include="ViewModel\BookSearchViewModel.cs" />
     <Compile Include="ViewModel\ItemSearchViewModel.cs" />
+    <Compile Include="ViewModel\NewViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SearchOption.cs" />
     <Compile Include="ViewModel\TableName.cs" />

@@ -222,7 +222,7 @@ namespace Library_Management_System.ViewModel
 
         
         // method to get the columns from the database table:
-        private ObservableCollection<string> GetTableColumns(string tableName)
+        private void GetTableColumns(string tableName)
         {
             ObservableCollection<string> columns = new ObservableCollection<string>(dbContext.Database.SqlQuery<string>(
                     $"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'")
@@ -252,13 +252,13 @@ namespace Library_Management_System.ViewModel
             }
             
 
-            return columns;
+            //return columns;
         }
 
 
         private void FillGrid()
         {
-            columnsFromDatabase = GetTableColumns(selectedTable);
+            GetTableColumns(selectedTable);
             DataTable = dbQueryController.ExecuteDbControllerQuery(dbQueryController.SelectWholeTable(SelectedTable));
         }
 

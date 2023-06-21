@@ -29,77 +29,83 @@
                             </Style>
                         </ComboBox.ItemContainerStyle>
                     </ComboBox>
-                    <!-- ComboBox  ScrollViewer.VerticalScrollBarVisibility="Visible" SelectedItem="{Binding SelectedTable}" ItemsSource="{Binding TableNames}" DisplayMemberPath="." Margin="0,5,5,0" VerticalAlignment="Top" Width="140"/-->
                     <Button Content="Search Table" Command="{Binding SearchTableCommand}"  Height="21" Width="80" Margin="20,5,5,0"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
 
         <!-- Entity display panel -->
-        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Margin="5">
-            <ScrollViewer>
-                <StackPanel>
-                    <Label HorizontalAlignment="Left">Searchable columns:</Label>
-                    <ListBox ItemsSource="{Binding ItemColumns, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,10">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
+        <GroupBox Header="Data" Grid.Row="2">
+            <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Margin="5">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Label HorizontalAlignment="Left">Searchable columns:</Label>
+                        <ListBox ItemsSource="{Binding ItemColumns, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,10">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
 
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,0,5,0">
-                                    <CheckBox Content="{Binding Name}" 
-                                              IsChecked="{Binding IsSearchable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ItemColumnSelectionChanedCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                              />
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,0,5,0">
+                                        <CheckBox Content="{Binding Name}" 
+                                                  IsChecked="{Binding IsSearchable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Command="{Binding DataContext.ItemColumnSelectionChanedCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                  />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
 
-                    <DataGrid Name="dataGrid"
-                               ItemsSource="{Binding DataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="True" Margin="0,5,0,5"/>
-                </StackPanel>
-            </ScrollViewer>
-        </Border>
-
-        <Grid Grid.Row="1" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="36*" />
-                <ColumnDefinition Width="500*" />
-                <ColumnDefinition Width="300*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.ColumnSpan="2" MaxHeight="150">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding SearchCriteriaCollection, UpdateSourceTrigger=PropertyChanged}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,3,0,0" />
-                                    <ComboBox ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding DataContext.SearchableColumns, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ColumnName}" Margin="0,0,5,0" VerticalAlignment="Top" Width="154" />
-                                    <TextBox Text="{Binding Value}" Width="290" Margin="0,0,5,0" FontSize="14" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        <DataGrid Name="dataGrid"
+                                   ItemsSource="{Binding DataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   AutoGenerateColumns="True" Margin="0,5,0,5"/>
+                    </StackPanel>
                 </ScrollViewer>
-            </Grid>
+            </Border>
+        </GroupBox>
 
-            <StackPanel Grid.Column="2">
-                <Button Content="Add Criteria" Command="{Binding AddCriteriaCommand}" Width="200" Margin="2" />
-                <Button Content="Remove Selected Criteria" Command="{Binding RemoveCriteriaCommand}" Width="200" Margin="2"/>
-                <Button Content="Search" Command="{Binding SearchCommand}" Width="200" Margin="2"/>
-            </StackPanel>
-        </Grid>
+
+
+
+        <GroupBox Header="Search Criteria" Grid.Row="1">
+            <Grid Grid.Row="1" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36*" />
+                    <ColumnDefinition Width="500*" />
+                    <ColumnDefinition Width="300*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.ColumnSpan="2" MaxHeight="150">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding SearchCriteriaCollection, UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,3,0,0" />
+                                        <ComboBox ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding DataContext.SearchableColumns, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ColumnName}" Margin="0,0,5,0" VerticalAlignment="Top" Width="154" />
+                                        <TextBox Text="{Binding Value}" Width="290" Margin="0,0,5,0" FontSize="14" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+
+                <StackPanel Grid.Column="2">
+                    <Button Content="Add Criteria" Command="{Binding AddCriteriaCommand}" Width="200" Margin="2" />
+                    <Button Content="Remove Selected Criteria" Command="{Binding RemoveCriteriaCommand}" Width="200" Margin="2"/>
+                    <Button Content="Search" Command="{Binding SearchCommand}" Width="200" Margin="2"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
 

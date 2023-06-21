@@ -10,18 +10,20 @@ namespace Library_Management_System.View
     public partial class BookOnlySearch : Window
     {
 
-        private readonly ItemSearchViewModel viewModel;
+        //private readonly ItemSearchViewModel viewModel;
 
         public BookOnlySearch()
         {
             InitializeComponent();
-            //DataContext = new ItemSearchViewModel();
+            DataContext = new NewViewModel();
 
+            /*
             viewModel = new ItemSearchViewModel();
 
             viewModel.SelectedTable = "books";
 
             DataContext = viewModel;
+            */
 
         }
     }
