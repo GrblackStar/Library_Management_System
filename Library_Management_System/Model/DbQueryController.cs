@@ -28,8 +28,6 @@ namespace Library_Management_System.Model
             return dataTable;
         }
 
-
-
         public string QueryStringGenerator(ObservableCollection<SearchCriteria> SearchCriteriaCollection, string SelectedTable)
         {
             var criteriaGroups = SearchCriteriaCollection.GroupBy(c => c.ColumnName);
@@ -53,12 +51,14 @@ namespace Library_Management_System.Model
                         continue;
                     }
 
+                    string itemValue = HandleHomoglyphs.ConvertQueryToLanguage(item.Value);
+
                     if (subQuery.Length > 0)
                     {
                         subQuery.Append(" OR ");
                     }
 
-                    subQuery.Append(column + " LIKE '%" + item.Value + "%'");
+                    subQuery.Append(column + " LIKE N'%" + itemValue + "%'");
                 }
 
                 if (subQuery.Length > 0)
@@ -78,15 +78,9 @@ namespace Library_Management_System.Model
             return sqlQuery;
         }
 
-
-
-
         public string SelectWholeTable(string SelectedTable)
         {
             return ($"SELECT * FROM {SelectedTable}");
         }
-
-
-
     }
 }

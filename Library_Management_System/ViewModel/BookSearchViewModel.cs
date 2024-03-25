@@ -89,9 +89,6 @@ namespace Library_Management_System.ViewModel
             }
         }
 
-
-
-
         public ObservableCollection<Book> Entities
         {
             get { return _entities; }
@@ -159,14 +156,11 @@ namespace Library_Management_System.ViewModel
             }
         }
 
-
-
         // called by the SearchCommand
         private bool CanSearch()
         {
             return true;
         }
-
 
         // The Search() method is called by the SearchCommand command when it is executed.
         // The method retrieves the books from the database that match the selected search
@@ -213,13 +207,6 @@ namespace Library_Management_System.ViewModel
             OnPropertyChanged("Entities");
         }
 
-
-
-
-
-
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         // The OnPropertyChanged() method is a method that is called to raise the PropertyChanged event.
@@ -228,7 +215,6 @@ namespace Library_Management_System.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
     }
 }
